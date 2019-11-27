@@ -16,7 +16,25 @@ fs.readFile('credentials.json', (err, content) => {
   // Authorize a client with credentials, then call the Google Sheets API.
   authorize(JSON.parse(content), listMajors);
 });
-
+function listMajors(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+  sheets.spreadsheets.values.get({
+    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    range: 'Class Data!A2:E',
+  }, (err, res) => {
+    if (err) return console.log('The API returned an error: ' + err);
+    const rows = res.data.values;
+    if (rows.length) {
+      console.log('Name, Major:');
+      // Print columns A and E, which correspond to indices 0 and 4.
+      rows.map((row) => {
+        console.log(`${row[0]}, ${row[4]}`);
+      });
+    } else {
+      console.log('No data found.');
+    }
+  });
+}
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
  * given callback function.
@@ -66,7 +84,7 @@ function getNewToken(oAuth2Client, callback) {
     });
   });
 }
-const command = "(Get-VMReplication |Select-Object -property name, ReplicationHealth| ConvertTo-Json -Compress)"
+/* const command = "(Get-VMReplication |Select-Object -property name, ReplicationHealth| ConvertTo-Json -Compress)"
 const check = "Get-VMReplication"
 const ps = new Shell({                  // Constructor function, creating a new object
   executionPolicy: 'Bypass',            // Nothing is blocked and there are no warnings or prompts
@@ -82,4 +100,4 @@ ps.invoke()
 .catch(err => {
   console.log(err);
   ps.dispose();   
-})
+}) */
