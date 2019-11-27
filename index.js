@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 const path = require('path');
-
+const date = new Date()
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -33,7 +33,7 @@ function authorize(credentials, callback) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
-    drive = google.drive({version: 'v3', oAuth2Client});
+    drive = google.drive({version: 'v3', auth: oAuth2Client});
 ;    //callback(oAuth2Client);
   });
 }
@@ -92,7 +92,28 @@ const ps = new Shell({                  // Constructor function, creating a new 
 ps.addCommand(location)  // Point the PS Script you want to use
 ps.invoke()
 .then(output => {
-    console.log(output);
+    console.log("File Created!");
+    var fileMetadata = {
+      'name': 'CSV ' + date,
+      'mimeType': 'application/vnd.google-apps.spreadsheet'
+    };
+    var media = {
+      mimeType: 'text/csv',
+      body: fs.createReadStream('myfile.csv')
+    };
+    drive.files.create({
+      resource: fileMetadata,
+      media: media,
+      
+    }, function (err, file) {
+      if (err) {
+        // Handle error
+        console.log("Check Sheets")
+        console.error(err);
+      } else {
+        console.log('File Id:', file.id);
+      }
+    });
     ps.dispose();                
 })
 .catch(err => {
