@@ -111,7 +111,7 @@ ps.invoke()
         console.log("Check Sheets")
         console.error(err);
       } else {
-        console.log('File Id:', file.id);
+        console.log('File Id:', file.data.id);
       }
     });
     ps.dispose();                
