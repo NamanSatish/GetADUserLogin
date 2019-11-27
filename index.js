@@ -2,14 +2,18 @@ const Shell = require('node-powershell');
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
-
+const path = require('path');
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = 'token.json';
-
+try{fs.unlink('myfile.csv', function (err) {
+  if (err) throw err;
+  // if no error, file has been deleted successfully
+  console.log('File deleted!');
+}); 
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
@@ -84,14 +88,13 @@ function getNewToken(oAuth2Client, callback) {
     });
   });
 }
-/* const command = "(Get-VMReplication |Select-Object -property name, ReplicationHealth| ConvertTo-Json -Compress)"
-const check = "Get-VMReplication"
+const location = "C:\\dev\\GetADUserLogin\\PS\\ADUser.ps1"
 const ps = new Shell({                  // Constructor function, creating a new object
   executionPolicy: 'Bypass',            // Nothing is blocked and there are no warnings or prompts
   noProfile: true
 });
 
-ps.addCommand(check)  // Point the PS Script you want to use
+ps.addCommand(location)  // Point the PS Script you want to use
 ps.invoke()
 .then(output => {
     console.log(output);
@@ -100,4 +103,4 @@ ps.invoke()
 .catch(err => {
   console.log(err);
   ps.dispose();   
-}) */
+}) 
