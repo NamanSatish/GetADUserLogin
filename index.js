@@ -10,7 +10,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // time.
 const TOKEN_PATH = 'token.json';
 try{
-  fs.unlink('myfile.csv')
+  fs.unlinkSync('myfile.csv')
   console.log('File deleted!');
 }catch (err) {
   console.log(err);
