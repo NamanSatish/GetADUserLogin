@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
-
+console.log("test");
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -31,7 +31,7 @@ function authorize(credentials, callback) {
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
+    //callback(oAuth2Client);
   });
 }
 

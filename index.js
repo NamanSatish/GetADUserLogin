@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 const path = require('path');
-
+const authorize = require("C:\\dev\\GetADUserLogin\\authorize.js")
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -29,26 +29,6 @@ ps.addCommand(location)  // Point the PS Script you want to use
 ps.invoke()
 .then(output => {
     console.log(output);
-    var fileMetadata = {
-      'name': 'My Report',
-      'mimeType': 'application/vnd.google-apps.spreadsheet'
-    };
-    var media = {
-      mimeType: 'text/csv',
-      body: fs.createReadStream('myfile.csv')
-    };
-    drive.files.create({
-      resource: fileMetadata,
-      media: media,
-      fields: 'id'
-    }, function (err, file) {
-      if (err) {
-        // Handle error
-        console.error(err);
-      } else {
-        console.log('File Id:', file.id);
-      }
-    });
     ps.dispose();                
 })
 .catch(err => {
