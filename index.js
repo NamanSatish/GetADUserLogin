@@ -9,11 +9,13 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = 'token.json';
-try{fs.unlink('myfile.csv', function (err) {
-  if (err) throw err;
-  // if no error, file has been deleted successfully
+try{
+  fs.unlink('myfile.csv')
   console.log('File deleted!');
-}); 
+}catch (err) {
+  console.log(err);
+  // if no error, file has been deleted successfully
+}
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
@@ -88,7 +90,7 @@ function getNewToken(oAuth2Client, callback) {
     });
   });
 }
-const location = "C:\\dev\\GetADUserLogin\\PS\\ADUser.ps1"
+const location = "PS\\ADUser.ps1"
 const ps = new Shell({                  // Constructor function, creating a new object
   executionPolicy: 'Bypass',            // Nothing is blocked and there are no warnings or prompts
   noProfile: true
@@ -102,5 +104,5 @@ ps.invoke()
 })
 .catch(err => {
   console.log(err);
-  ps.dispose();   
-}) 
+  ps.dispose();  
+})
